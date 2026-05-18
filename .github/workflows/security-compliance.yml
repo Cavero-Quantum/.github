@@ -1,0 +1,34 @@
+---
+name: Security & Compliance Assessment
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main, develop]
+  schedule:
+    - cron: 0 1 * * 1 # Weekly on Monday at 1 AM UTC
+  workflow_dispatch: # Manual trigger
+
+permissions:
+  contents: write # Required to create and commit security files
+  actions: write # Required for workflow operations
+  issues: write # Required for issue creation
+  pull-requests: write # Required for PR comments
+  checks: write # Required for Trunk Check annotations
+  id-token: write # Required for attestation
+  attestations: write # Required for attestation
+  packages: read # Required for container registry access
+  security-events: write # Required for SARIF upload to Code Scanning
+
+jobs:
+  security-compliance:
+    uses: cavero-quantum/github-workflow-security-compliance-linter/.github/workflows/security-compliance-scan.yml@main
+    secrets:
+      SECURITY_COMPLIANCE_APP_ID: ${{ secrets.SECURITY_COMPLIANCE_APP_ID }}
+      SECURITY_COMPLIANCE_APP_PRIVATE_KEY: ${{ secrets.SECURITY_COMPLIANCE_APP_PRIVATE_KEY }}
+      SLACK_BUILD_STATUS_WEBHOOK: ${{ secrets.SLACK_BUILD_STATUS_WEBHOOK }}
