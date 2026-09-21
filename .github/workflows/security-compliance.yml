@@ -27,7 +27,7 @@ permissions:
 
 jobs:
   security-compliance:
-    uses: cavero-quantum/github-workflow-security-compliance-linter/.github/workflows/security-compliance-scan.yml@main
+    uses: cavero-quantum/github-workflow-security-compliance-linter/.github/workflows/security-compliance-scan.yml@927f6cb735d7639a68440c22fe56a1a05735e6bf # main
     secrets:
       SECURITY_COMPLIANCE_APP_ID: ${{ secrets.SECURITY_COMPLIANCE_APP_ID }}
       SECURITY_COMPLIANCE_APP_PRIVATE_KEY: ${{ secrets.SECURITY_COMPLIANCE_APP_PRIVATE_KEY }}
